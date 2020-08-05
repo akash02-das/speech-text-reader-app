@@ -73,9 +73,23 @@ function createBox(item) {
         <p class="info">${text}</p>
     `;
 
-    // @Todo - Speak Event
+    box.addEventListener('click', () => {
+        setTextMessage(text);
+        speakText();
+
+        // Add active effect
+        box.classList.add('active');
+
+        setTimeout(() => box.classList.remove('active'), 800);
+    });
+
     main.appendChild(box);
 }
+
+// Init speech synthesis
+const message = new SpeechSynthesisUtterance();
+
+
 
 // Store voices
 let voices = [];
@@ -92,6 +106,16 @@ function getVoices() {
 
         voiceSelected.appendChild(option);
     });
+}
+
+// Set text
+function setTextMessage(text) {
+    message.text = text;
+}
+
+// Speak text
+function speakText() {
+    speechSynthesis.speak(message);
 }
 
 // Voices changed
